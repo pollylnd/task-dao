@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import data from './data/graph.json'
+import Selector from './components/Selector'
+import Result from './components/Result'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css'
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      start: 'A',
+      end: 'A',
+      showResult: false
+    }
+
+    this.changeStart = this.changeStart.bind(this)
+    this.changeEnd = this.changeEnd.bind(this)
+    this.showResult = this.showResult.bind(this)
+  }
+
+  changeStart(start) {
+    this.setState({ start: start })
+  }
+
+  changeEnd(end) {
+    this.setState({ end: end })
+  }
+
+  showResult() {
+    this.setState({showResult: true})
+  }
+
+  render() {
+    return(
+      <div className='App'>
+        <div className='Selectors'>
+          <Selector data={data.vertex[0]} changeStart={this.changeStart} />
+          <Selector data={data.vertex[0]} changeEnd={this.changeEnd} />
+        </div>
+        
+        <button onClick={this.showResult} >Отправить</button>
+        <Result showResult={this.state.showResult} nodes={data.vertex[0]} start={this.state.start} end={this.state.end} />
+      </div>
+      
+    )
+  }
 }
 
-export default App;
+export default App
